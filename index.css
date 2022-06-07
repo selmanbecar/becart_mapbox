@@ -1,0 +1,123 @@
+ body {
+     overflow: hidden;
+ }
+
+ body * {
+     -webkit-touch-callout: none;
+     -webkit-user-select: none;
+     -moz-user-select: none;
+     -ms-user-select: none;
+     user-select: none;
+ }
+
+ .wrapper {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     margin-top: 25%;
+ }
+
+ /* stil za mapu ( npr velicina) */
+ .map {
+     position: absolute;
+     width: 520px;
+     height: 520px;
+ }
+
+ /* krug sa kojim se mjenja mapa */
+ .mapboxgl-compare .compare-swiper-vertical {
+     top: 30% !important;
+     left: 360px !important;
+ } 
+
+
+ /* lijeva strana lancica ( svijetla strana) */
+ .lancic {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 155px;
+     height: 155px;
+     box-shadow: 0 0 0 1000px rgb(255 255 255 / 70%);
+     border: 1px solid black;
+     z-index: 1;
+     pointer-events: none;
+     right: 0;
+     bottom: 0;
+     margin: auto;
+ }
+
+ /* desna strana lancica(tamna strana) */
+ .lancic-desno {
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     width: 255px;
+     height: 255px;
+     box-shadow: 0 0 0 1000px #000;
+     z-index: 1;
+     pointer-events: none;
+     margin: auto;
+     border: none;
+ }
+
+ /* slika lancica  */
+ .new-overlay-large[data-id="Necklace"].gold {
+     background-image: url(https://becart.ba/images/kvadrat-silver.svg);
+ }
+
+ /* stilovi za sliku (okvir zlatni) */
+ .new-overlay-large,
+ .new-overlay-small {
+     position: absolute;
+     top: 35px;
+     left: -20px;
+     right: 0;
+     bottom: 0;
+     width: 300px;
+     height: 350px;
+     background-repeat: no-repeat;
+     z-index: 1;
+     pointer-events: none;
+     margin: auto;
+ }
+
+ .geocoder {
+     position: absolute;
+     z-index: 1;
+     width: 100%;
+     left: 50%;
+     top: 10px;
+ }
+
+ .mapboxgl-ctrl-geocoder {
+     min-width: 100%;
+ }
+
+ #map {
+     margin-top: 75px;
+ }
+
+ img {
+
+     width: 300px;
+     height: 300px;
+     object-fit: none;
+     margin-top: 60%;
+     margin-left: 60%;
+
+ }
+
+ .toolbar-wrapper {
+     height: 100%;
+ }
+
+ .select-img {
+     margin-left: 25px;
+     width: 100px;
+     height: 30px;
+     background-color: black;
+     color: #C8B675;
+ }

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Swipe between maps</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
+    <link href="./index.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+    <script src="./html2canvas.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+        integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
+        integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Becart</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <div class="row">
+                            <div id="menu">
+                                <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+                                <!-- See a list of Mapbox-hosted public styles at -->
+                                <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+                                <label for="satellite-v9">satellite</label>
+                                <input id="light-v10" type="radio" name="rtoggle" value="light">
+                                <label for="light-v10">light</label>
+                                <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+                                <label for="dark-v10">dark</label>
+                                <input id="streets-v11" type="radio" name="rtoggle" value="streets">
+                                <label for="streets-v11">streets</label>
+                                <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+                                <label for="outdoors-v11">outdoors</label>
+                            </div>
+                        </div>
+                    </li> 
+                    <li class="nav-item dropdown">
+                    <select id="mySelect" onchange="myFunction()" class="select-img">
+                        <option value="https://becart.ba/images/krug-silver.svg">Srebreni</option>
+                        <option value="https://cdn.shopify.com/s/files/1/1157/3696/t/15/assets/NLG.svg">Zlatni</option>
+                        <option value="https://becart.ba/images/kvadrat-silver.svg">aa</option>
+                    </select>
+                    </li>
+                </ul>
+                <div id="geocoder" class="geocoder"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div id="comparison-container">
+
+
+                    <!-- mjenjanje dizajna mape -->
+
+                    <div class="wrapper" id="wrapper">
+                        <div id="before" class="map">
+
+                            <!-- lijeva (svijetla strana) lancica i mape -->
+                            <div class="lancic"></div>
+                        </div>
+                        <div id="after" class="map">
+
+                            <!-- desna (tamna strana) lancica i mape -->
+                            <div class="lancic-desno" id="aaa"></div>
+                            <!-- slika koja ide preko tamne strane lancica -->
+                            <div class="new-overlay-large gold" id="slika" data-id="Necklace"></div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+        type="text/css">
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.css"
+        type="text/css">
+
+
+
+
+    <script>
+
+
+
+        // TO MAKE THE MAP APPEAR YOU MUST
+        // ADD YOUR ACCESS TOKEN FROM
+        // https://account.mapbox.com
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2VsbWFuYmVjYXIiLCJhIjoiY2t3eXA2bXZ3MGF0NTJwbnlpeGtzenhqdCJ9.N-0o9nUpToKpKRN6mAny7g';
+
+
+        // gdje je style stavis stilove koje si kreirao u mapbox studio before je za svijetlu mapu a after za tamnu (lijevu i desnu)
+        // gdje je center stavis kordinate gdje hoces pocetnu da ti se loade mapa
+        // gdje je zoom stavis koliko hoces da ti bude blizu mapa
+        const beforeMap = new mapboxgl.Map({
+            container: 'before',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [18.413370, 43.857114],
+            zoom: 10,
+            preserveDrawingBuffer: true,
+
+        });
+
+        const afterMap = new mapboxgl.Map({
+            container: 'after',
+            style: "mapbox://styles/selmanbecar/cl3kcwswk000014o518iwtue7",
+            center: [18.413370, 43.857114],
+            zoom: 10,
+            preserveDrawingBuffer: true,
+
+        });
+        // funkcija za mjenjanje dizajna mape
+        const layerList = document.getElementById('menu');
+        const inputs = layerList.getElementsByTagName('input');
+
+        for (const input of inputs) {
+            input.onclick = (layer) => {
+                const layerId = layer.target.id;
+                afterMap.setStyle('mapbox://styles/mapbox/' + layerId);
+            };
+        }
+
+
+        // A selector or reference to HTML element
+        const container = '#comparison-container';
+
+        const map = new mapboxgl.Compare(beforeMap, afterMap, container, {
+            // Set this to enable comparing two maps by mouse movement:
+            // mousemove: true
+        });
+        // Add the control to the map.
+
+        const geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+        });
+
+       
+        document.getElementById('geocoder').appendChild(geocoder.onAdd(beforeMap));
+
+        function myFunction() {
+            var x = document.getElementById("mySelect").value;
+            console.log(x)
+            document.getElementById("slika").style.backgroundImage = `url(${x})`
+        }
+
+
+    </script>
+
+</body>
+
+</html>
+
+
+<!-- https://docs.mapbox.com/mapbox-gl-js/example/setstyle/ -->

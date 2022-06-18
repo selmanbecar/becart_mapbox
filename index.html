@@ -34,18 +34,12 @@
                     <li class="nav-item">
                         <div class="row">
                             <div id="menu">
-                                <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+                                <input id="cl3k6jxn6002m15oec2f3lgbm" type="radio" name="rtoggle" value="cl3k6jxn6002m15oec2f3lgbm" checked="checked">
                                 <!-- See a list of Mapbox-hosted public styles at -->
                                 <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
                                 <label for="satellite-v9">satellite</label>
-                                <input id="light-v10" type="radio" name="rtoggle" value="light">
+                                <input id="cl4jw5qvc000o14s734j1n0zy" type="radio" name="rtoggle" value="cl4jw5qvc000o14s734j1n0zy">
                                 <label for="light-v10">light</label>
-                                <input id="dark-v10" type="radio" name="rtoggle" value="dark">
-                                <label for="dark-v10">dark</label>
-                                <input id="streets-v11" type="radio" name="rtoggle" value="streets">
-                                <label for="streets-v11">streets</label>
-                                <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
-                                <label for="outdoors-v11">outdoors</label>
                             </div>
                         </div>
                     </li> 
@@ -133,7 +127,7 @@
 
         const afterMap = new mapboxgl.Map({
             container: 'after',
-            style: "mapbox://styles/selmanbecar/cl3kcwswk000014o518iwtue7",
+            style: "mapbox://styles/becart/cl3k6jxn6002m15oec2f3lgbm",
             center: [18.413370, 43.857114],
             zoom: 10,
             preserveDrawingBuffer: true,
@@ -146,7 +140,7 @@
         for (const input of inputs) {
             input.onclick = (layer) => {
                 const layerId = layer.target.id;
-                afterMap.setStyle('mapbox://styles/mapbox/' + layerId);
+                afterMap.setStyle('mapbox://styles/becart/' + layerId);
             };
         }
 
